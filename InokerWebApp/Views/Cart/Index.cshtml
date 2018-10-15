@@ -4,72 +4,72 @@
     ViewData["Title"] = "Index";
 }
 
-<h2 class="text-center">Korpa</h2>
+<h2 class="text-center mt-2">Korpa</h2>
 <hr />
 <div class="row">
     <div class="col-md-8">
         <div class="row">
             @foreach (OrderItem item in Model.Items)
             {
-                <div class="col-md-4">
-                <div class="card">
-                    <img class="card-img-top" src="@Url.Action("GetModelTileImg", "Model", new { id = item.ModelId })" />
-                    <div class="card-body">
-                        @{ string name = Url.Action("GetModelName", "Model", new { id = item.ModelId });
-                        }
-                        <h4 class="card-title text-center">@name</h4>
-                        <hr />
-
-                        <div class="input-group">
-                            <label class="control-label">Izaberi dimenziju:</label>
-                            <select class="form-control" onchange="ChangeDimension()">
-                                <option>Izaberi...</option>
-                                @foreach (string s in item.AvailableDimensions)
-                                {
-                                    if (s == item.Product?.Dimension)
+                <div class="col-md-4 col-6">
+                    <div class="card">
+                        <img class="card-img-top" src="@Url.Action("GetModelTileImg", "Model", new { id = item.ModelId })" />
+                        <div class="card-body pt-1 p-md-3 p-2">
+                            <h4 class="card-title text-center mb-1">@item.ModelName</h4>
+                            <hr class="my-1" />
+                            <div class="form-group">
+                                <label class="control-label">Dimenzija:</label>
+                                <select class="form-control" onchange="ChangeDimension()">
+                                    <option>Izaberi...</option>
+                                    @foreach (string s in item.AvailableDimensions)
                                     {
-                                        <option value="@s" selected="selected"></option>
+                                        if (s == item.Product?.Dimension)
+                                        {
+                                            <option value="@s" selected="selected">@s</option>
+                                        }
+                                        <option value="@s">@s</option>
                                     }
-                                    <option value="@s"></option>
-                                }
-                            </select>
+                                </select>
+                            </div>
+                            @if (item.Product != null)
+                            {
+                                <div class="form-group">
+                                    <div class="input-group quantityDiv">
+                                        <label class="control-label">Metara kvadratnih</label>
+
+                                        <input style="background:white;" disabled type="number" class="form-control" value="@item.Quantity" />
+                                        <div class="input-group-append add-on">
+                                            <button class="btn btn-default input-group-text" onclick="increaseQuan(@item.Product)">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                            <button class="btn btn-default input-group-text" onclick="decreaseQuan(@item.Product)">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="form-group">
+                                    <div class="input-group hidden quantityDiv">
+                                        <label class="control-label">Metara kvadratnih</label>
+
+                                        <input style="background:white;" disabled type="number" class="form-control" value="1" />
+                                        <div class="input-group-append add-on">
+                                            <button class="btn btn-default input-group-text" onclick="increaseQuan()">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                            <button class="btn btn-default input-group-text" onclick="decreaseQuan()">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         </div>
-                        @Html.PartialAsync("~/Views/Model/_ModelVariations.cshtml", item)
-                        @if (item.Product != null)
-                        {
-                            <div class="input-group quantityDiv">
-                                <label class="control-label">Metara kvadratnih</label>
-
-                                <input style="background:white;" disabled type="number" class="form-control" value="@item.Quantity" />
-                                <div class="input-group-append add-on">
-                                    <button class="btn btn-default input-group-text">
-                                        <img class="input-group-img" src="~/images/Plus.png" onclick="increaseQuan()" />
-                                    </button>
-                                    <button class="btn btn-default input-group-text">
-                                        <img class="input-group-img" src="~/images/Minus.png" onclick="decreaseQuan()" />
-                                    </button>
-                                </div>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="input-group hidden quantityDiv">
-                                <label class="control-label">Metara kvadratnih</label>
-
-                                <input style="background:white;" disabled type="number" class="form-control" value="1" />
-                                <div class="input-group-append add-on">
-                                    <button class="btn btn-default input-group-text">
-                                        <img class="input-group-img" src="~/images/Plus.png" onclick="increaseQuan()" />
-                                    </button>
-                                    <button class="btn btn-default input-group-text">
-                                        <img class="input-group-img" src="~/images/Minus.png" onclick="decreaseQuan()" />
-                                    </button>
-                                </div>
-                            </div>
-                        }
                     </div>
                 </div>
-            </div>
             }
         </div>
     </div>
@@ -78,7 +78,10 @@
 
 @section Scripts{
     <script>
+        function ChangingDimension() {
 
+
+        }
 
 
     </script>

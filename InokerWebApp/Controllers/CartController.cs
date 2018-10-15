@@ -25,6 +25,7 @@ namespace InokerWebApp.Controllers
             ViewBag.ReturnUrl = returnUrl;
             foreach (OrderItem item in cart.Items)
             {
+                item.ModelName = db.Models.Find(item.ModelId).Name;
                 item.AvailableDimensions = db.Products
                     .Where(p => p.ModelId == item.ModelId && p.Stock > 0)
                     .Select(p => p.Width + "x" + p.Height).ToArray();

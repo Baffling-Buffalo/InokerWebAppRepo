@@ -46,9 +46,12 @@
                     <a class="nav-link" href="#">Link</a>
                 </li>
             </ul>
-            <span class="my-2 my-lg-0 mr-lg-2">
-                <i class="fa fa-shopping-cart fa-2x"></i>
-            </span>
+            <a asp-controller="Cart" asp-action="Index" style="color:#272727">
+                <span class="my-2 my-lg-0 mr-lg-2 cartBtn">
+                    <i class="fa fa-shopping-cart fa-2x"></i>
+                </span>
+            </a>
+            
             @*<form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>

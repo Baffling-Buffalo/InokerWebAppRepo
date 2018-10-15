@@ -35,8 +35,8 @@
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Izmeni" class="btn btn-default" />
-                        <a role="button" class="btn btn-danger confirmBtn" onclick="ConfirmDelete(this)" >Obrisi</a>
-                        <a asp-controller="Products" asp-action="DeleteConfirmed" asp-route-id="@Model.ProductId" role="button"  class="btn btn-danger deleteBtn hidden">Siguran?</a>
+                        <a role="button" class="btn btn-danger confirmBtn" style="color:white!important;" onclick="ConfirmDelete(this)" >Obrisi</a>
+                        <a asp-controller="Products" asp-action="DeleteConfirmed" asp-route-id="@Model.ProductId" role="button"  class="btn btn-danger hidden">Siguran?</a>
                         <a role="button" class="btn btn-default hidden" onclick="UnconfirmDelete(this)"><i class="fa fa-window-close"></i></a>
                     </div>
                 </form>
