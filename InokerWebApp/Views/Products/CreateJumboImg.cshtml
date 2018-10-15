@@ -1,0 +1,107 @@
+﻿@model JumboImgViewModel
+
+@{
+    ViewData["Title"] = "CreateJumboImg";
+}
+
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <h2 class="text-center">Dodaj sliku proizvoda</h2>
+        <hr />
+        <form asp-action="CreateJumboImg" onsubmit="return GetPhotos()">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group text-center">
+                <label asp-for="Photo"></label>
+                <div id="photo1-input-cropper" class="hidden"></div>
+                <div class="upload-btn-wrapper form-control-file text-center">
+                    <button class="btn btn-lg bttn-light upload-btn">
+                        <i class="fas fa-upload mr-2"></i>Izaberi sliku
+                    </button>
+                    <input type="file" id="photo1-input" value="Izaberi sliku" accept="image/*" />
+                </div>
+                <span class="text-danger" asp-validation-for="Photo"></span>
+                @if (Model?.Photo != null)
+                {
+                    <input asp-for="Photo" type='hidden' value="@Model.Photo" name='Photo' id="Photo" />
+                }
+                else
+                {
+                    <input asp-for="Photo" type='hidden' name='Photo' id="Photo" />
+                }
+            </div>
+            <div class="form-group">
+                <label asp-for="Product" class="control-label"></label>
+                <input value="@Model?.Product" name="Product" class="form-control" list="Products"
+                       data-val="true" data-val-length="Min 2 max 30 karaktera" data-val-required="Izaberi proizvod" />
+                <datalist id="Products">
+                    @foreach (string p in ViewBag.Models)
+                    {
+                        <option value="@p"></option>
+                    }
+                </datalist>
+                <span asp-validation-for="Product" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Dodaj" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+
+        $(function () {
+            if ($("#Photo").val().length > 7) {
+                $("#photo1-input-cropper").croppie("bind", {
+                    url: $("#Photo").val()
+                });
+                $("#photo1-input-cropper").removeClass("hidden");
+            }
+        })
+
+        var basic = $('#photo1-input-cropper').croppie({
+            viewport: { width: 800, height: 400 },
+            boundary: { width: 850, height: 450 },
+            showZoomer: false
+        });
+
+        function readFile(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                var id = $(input).attr(`id`);
+                reader.onload = function (e) {
+                    $(`#${id}-cropper`).croppie('bind', {
+                        url: e.target.result
+                    });
+                    $(`#${id}-cropper`).removeClass("hidden");
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function GetPhotos() {
+            //var reader = new FileReader();
+            //reader.onload = function (e) {
+            //    $("#IntPhoto").val(reader.result);
+            //};
+            basic.croppie(`result`, {
+                type: "canvas",
+                size: {
+                    width: 1600,
+                    height: 800
+                }
+            }).then(function (resp) {
+                $("#Photo").attr("value", resp);
+            });
+
+            return true;
+        }
+
+        $('.upload-btn-wrapper input').on('change', function () { readFile(this); });
+
+    </script>
+}

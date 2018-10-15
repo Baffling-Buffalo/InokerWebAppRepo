@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewData["Title"] = "RemoveUserFromRole";
+}
+
+
+<div class="col-md-4 offset-md-4">
+    <h2>Remove User From Role</h2>
+    <form asp-action="RemoveUserFromRole">
+        <span class="warning">@ViewBag.Message</span>
+        <div class="form-group">
+            <label class="label" for="selectRole">Select role</label>
+            <select asp-items="ViewBag.Roles" name="role" id="selectRole" onchange="ShowUsers()" required class="form-control">
+                <option value="">Select role...</option>
+            </select>
+            <span id="roleValidation" class="text-danger"></span>
+        </div>
+        <div class="form-group" id="usersDiv">
+
+        </div>
+        <button class=" btn btn-danger">Remove</button>
+    </form>
+</div>
+
+
+@section Scripts{
+    <script>
+        function ShowUsers() {
+            var role = $("#selectRole").val();
+            if (role == "") {
+                $("#roleValidation").text("You must select role");
+                $("#usersDiv").html("");
+                return;
+            }
+            var request = $.ajax({
+                type: "GET",
+                url: "/Role/_GetUsersFromRole/?role=" + role,
+                dataType: "html"
+            });
+            request.done(function (usersHtml) {
+                $("#roleValidation").text("");
+                $("#usersDiv").html(usersHtml);
+            });
+            request.fail(function (er) {
+                $("#roleValidation").text(er.statusText);
+            });
+        }
+    </script>
+}
+

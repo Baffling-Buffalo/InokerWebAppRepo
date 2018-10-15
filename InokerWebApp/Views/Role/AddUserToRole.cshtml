@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "AddUserToRole";
+}
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <h2>Add user to role</h2>
+        <hr />
+        <form asp-action="AddUserToRole">
+            <div class="form-group">
+                <select name="username" asp-items="ViewBag.Users" class="form-control" required>
+                    <option value="">Choose user</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <select name="role" asp-items="ViewBag.Roles" class="form-control" required>
+                    <option value="">Choose role</option>
+                </select>
+            </div>
+            <button class="btn btn-orange">Add to role</button>
+        </form>
+
+        <br />
+        <span class="text-danger">@Html.Raw(@ViewBag.Message)</span>
+    </div>
+</div>

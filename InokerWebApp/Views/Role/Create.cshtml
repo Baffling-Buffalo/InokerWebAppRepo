@@ -1,0 +1,24 @@
+﻿@model IdentityRole
+@{
+    ViewBag.Title = "Add new role";
+}
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <h2>New role:</h2>
+        <hr />
+        <form asp-action="Create">
+            <div class="form-group">
+                <label asp-for="Name">Role name</label>
+                <input asp-for="Name" class="form-control" data-val="true" data-valrequired="Enter role name" />
+                <span asp-validation-for="Name"></span>
+            </div>
+            <button class="btn btn-orange" type="submit">Create</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+} 

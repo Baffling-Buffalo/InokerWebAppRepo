@@ -1,0 +1,62 @@
+﻿@model InokerWebApp.Models.Product
+
+
+
+    <div class="col-md-4 col-lg-3">
+        <div class="card">
+            <h4 class="card-title text-center">Dodaj proizvod</h4>
+            <span class="text-center text-danger">@Html.Raw(ViewBag.PrMessage)</span>
+            <div class="card-body">
+                <form asp-action="_CreateProduct" data-ajax="true" data-ajax-update="#variationRow" data-ajax-mode="after">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    @if (ViewBag.ModelId != null)
+                    {
+                        <input type="hidden" asp-for="ModelId" id="newProdModelId" value="@ViewBag.ModelId" />
+                    }
+                    else
+                    {
+                        <input type="hidden" asp-for="ModelId" id="newProdModelId" />
+                    }
+
+                    <div class="form-group">
+                        <label asp-for="Width" class="control-label"></label>
+                        <input asp-for="Width" class="form-control" />
+                        <span asp-validation-for="Width" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Height" class="control-label"></label>
+                        <input asp-for="Height" class="form-control" />
+                        <span asp-validation-for="Height" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Stock" class="control-label"></label>
+                        <input asp-for="Stock" class="form-control" />
+                        <span asp-validation-for="Stock" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Price" class="control-label"></label>
+                        <input asp-for="Price" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Dodaj" onclick="DisableBtn(this)" class="btn btn-default" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+    $(function () {
+        $("#newProdModelId").val($("#modelId").val())
+    })
+
+    function DisableBtn(btn) {
+        $(btn).attr("disabled");
+    }
+    </script>
+}

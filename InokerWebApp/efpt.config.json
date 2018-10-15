@@ -1,0 +1,1 @@
+﻿{"ContextClassName":"InokerwebappdbContext","DefaultDacpacSchema":null,"IdReplace":false,"IncludeConnectionString":true,"OutputPath":"Models","ProjectRootNamespace":"InokerWebApp","SelectedToBeGenerated":0,"Tables":["dbo.Collection","dbo.JumboImg","dbo.Model","dbo.Product"],"UseDatabaseNames":false,"UseFluentApiOnly":false,"UseHandleBars":false,"UseInflector":true}

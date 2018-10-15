@@ -1,0 +1,183 @@
+﻿@model ModelViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2 class="text-center">Dodaj proizvod</h2>
+<span class="text-danger">@ViewBag.Message</span>
+<hr />
+<form asp-action="Create" onsubmit="return GetPhotos()">
+    <div class="row">
+
+        <div class="col-12 col-md-6">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Collection" class="control-label"></label>
+                <input value="@Model?.Collection" name="Collection" class="form-control" list="Collections"
+                       data-val="true" data-val-length="Min 2 max 30 karaktera" data-val-length-min="2" data-val-length-max="30" data-val-required="Unesi naziv kolekcije" />
+                <datalist id="Collections">
+                    @foreach (string c in ViewBag.Collections)
+                    {
+                        <option value="@c"></option>
+                    }
+                </datalist>
+                <span asp-validation-for="Collection" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="Width" class="control-label"></label>
+                <input asp-for="Width" class="form-control" />
+                <span asp-validation-for="Width" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Height" class="control-label"></label>
+                <input asp-for="Height" class="form-control" />
+                <span asp-validation-for="Height" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Stock" class="control-label"></label>
+                <input asp-for="Stock" class="form-control" />
+                <span asp-validation-for="Stock" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>*@
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group text-center">
+                <label asp-for="Photo1"></label>
+                <div id="photo1-input-cropper" class="hidden"></div>
+                <div class="upload-btn-wrapper form-control-file text-center">
+                    <button class="btn btn-default upload-btn">
+                        <i class="fas fa-upload mr-2"></i>Izaberi sliku
+                    </button>
+                    <input type="file" id="photo1-input" value="Izaberi sliku" accept="image/*" />
+                </div>
+                <span class="text-danger" asp-validation-for="Photo1"></span>
+                @if (Model?.Photo1 != null)
+                {
+                    <input asp-for="Photo1" type='hidden' value="@Model.Photo1" name='Photo1' id="Photo1" />
+                }
+                else
+                {
+                    <input asp-for="Photo1" type='hidden' name='Photo1' id="Photo1" />
+                }
+            </div>
+            <div class="form-group text-center">
+                <label asp-for="Photo2"></label>
+                <div id="photo2-input-cropper" class="hidden"></div>
+                <div class="upload-btn-wrapper form-control-file text-center">
+                    <button class="btn btn-default upload-btn">
+                        <i class="fas fa-upload mr-2"></i>Izaberi sliku
+                    </button>
+                    <input type="file" id="photo2-input" value="Izaberi sliku" accept="image/*" />
+                </div>
+                <span class="text-danger" asp-validation-for="Photo2"></span>
+                @if (Model?.Photo2 != null)
+                {
+                    <input asp-for="Photo2" type='hidden' value="@Model.Photo2" name='Photo2' id="Photo2" />
+                }
+                else
+                {
+                    <input asp-for="Photo2" type='hidden' name='Photo2' id="Photo2" />
+                }
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group text-center mt-3">
+        <input type="submit" value="Kreiraj" class="btn btn-lg btn-dark" />
+    </div>
+</form>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+
+        $(function () {
+            if ($("#Photo1").val().length > 7) {
+                $("#photo1-input-cropper").croppie("bind", {
+                    url: $("#Photo1").val()
+                });
+                $("#photo1-input-cropper").removeClass("hidden");
+            }
+            if ($("#Photo2").val().length > 7) {
+                $("#photo2-input-cropper").croppie("bind", {
+                    url: $("#Photo2").val()
+                });
+                $("#photo2-input-cropper").removeClass("hidden");
+            }
+        })
+
+        var basic = $('#photo1-input-cropper').croppie({
+            viewport: { width: 200, height: 200 },
+            boundary: { width: 250, height: 250 },
+            showZoomer: false
+        });
+
+        var basic2 = $('#photo2-input-cropper').croppie({
+            viewport: { width: 200, height: 100 },
+            boundary: { width: 250, height: 150 },
+            showZoomer: false
+        });
+
+        function readFile(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                var id = $(input).attr(`id`);
+                reader.onload = function (e) {
+                    $(`#${id}-cropper`).croppie('bind', {
+                        url: e.target.result
+                    });
+                    $(`#${id}-cropper`).removeClass("hidden");
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function GetPhotos() {
+            //var reader = new FileReader();
+            //reader.onload = function (e) {
+            //    $("#IntPhoto").val(reader.result);
+            //};
+            basic.croppie(`result`, {
+                type: "canvas",
+                size: {
+                    width: 400,
+                    height: 400
+                }
+            }).then(function (resp) {
+                $("#Photo1").attr("value", resp);
+            });
+
+            //reader = new FileReader();
+            //reader.onload = function (e) {
+            //    $("#ExtPhoto").val(reader.result);
+            //};
+            basic2.croppie(`result`, {
+                type: "canvas",
+                size: {
+                    width: 1000,
+                    height: 500
+                }
+            }).then(function (resp) {
+                $("#Photo2").attr("value", resp);
+            });
+
+            return true;
+        }
+
+        $('.upload-btn-wrapper input').on('change', function () { readFile(this); });
+
+    </script>
+}

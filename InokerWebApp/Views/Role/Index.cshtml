@@ -1,0 +1,41 @@
+﻿@model IEnumerable<IdentityRole>
+@{
+    ViewData["Title"] = "Roles";
+}
+
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <h2>Role manager</h2>
+        <hr />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Role names</th>
+                    <th></th>
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (var role in Model)
+                {
+                    <tr>
+                        <td>
+                            @role.Name
+                        </td>
+                        <td class="text-right"><a class="btn btn-danger" role="button" asp-action="Delete" asp-route-rolename="@role.Name">Delete <i class="fas fa-trash ml-1"></i> </a></td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+        <br />
+
+        <a class="btn btn-orange" role="button" asp-action="Create">New role <i class="fas fa-plus ml-1"></i> </a>
+        <a class="btn btn-orange" role="button" asp-action="AddUserToRole">Add user to role <i class="fas fa-user ml-1"></i> </a>
+        <a class="btn btn-orange" role="button" asp-action="RemoveUserFromRole">Remove user from role <i class="fas fa-window-close"></i> </a>
+    </div>
+</div>
+
+<br />
+<span class="text-success">@Html.Raw(@ViewBag.Message)</span>

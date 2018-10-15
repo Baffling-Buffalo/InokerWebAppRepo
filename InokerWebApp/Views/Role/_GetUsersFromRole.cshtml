@@ -1,0 +1,12 @@
+﻿@model List<ApplicationUser>
+
+<label class="label" for="userSelect">Select user</label>
+<select name="username" id="userSelect" required size="@Model.Count" class="form-control"  >
+    @{
+        foreach (ApplicationUser user in Model)
+        {
+            <option>@user.UserName</option>
+        }}
+</select>
+
+

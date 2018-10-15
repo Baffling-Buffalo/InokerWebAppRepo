@@ -1,0 +1,50 @@
+﻿@model InokerWebApp.Models.Product
+
+
+@{string id = "varijacija" + Model.ProductId;}
+
+    <div class="col-md-4 col-lg-3" id="@id">
+        <div class="card">
+            <h4 class="card-title text-center">Izmeni proizvod</h4>
+            <span class="text-center text-danger">@Html.Raw(ViewBag.PrMessage)</span>
+
+            <div class="card-body">
+                <form asp-controller="Products" asp-action="_EditProduct" data-ajax="true" data-ajax-update="#@id" data-ajax-mode="replace-with">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="ProductId" />
+                    <input type="hidden" asp-for="ModelId" />
+                    <div class="form-group">
+                        <label asp-for="Width" class="control-label"></label>
+                        <input asp-for="Width" class="form-control" />
+                        <span asp-validation-for="Width" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Height" class="control-label"></label>
+                        <input asp-for="Height" class="form-control" />
+                        <span asp-validation-for="Height" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Stock" class="control-label"></label>
+                        <input asp-for="Stock" class="form-control" />
+                        <span asp-validation-for="Stock" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Price" class="control-label"></label>
+                        <input asp-for="Price" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Izmeni" class="btn btn-default" />
+                        <a role="button" class="btn btn-danger confirmBtn" onclick="ConfirmDelete(this)" >Obrisi</a>
+                        <a asp-controller="Products" asp-action="DeleteConfirmed" asp-route-id="@Model.ProductId" role="button"  class="btn btn-danger deleteBtn hidden">Siguran?</a>
+                        <a role="button" class="btn btn-default hidden" onclick="UnconfirmDelete(this)"><i class="fa fa-window-close"></i></a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}
