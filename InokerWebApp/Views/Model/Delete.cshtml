@@ -4,28 +4,29 @@
     ViewData["Title"] = "Delete";
 }
 
+<div class="container">
+    <h3 class="text-center">Signo zelis da obrises ovaj model?</h3>
+    <div class="text-center">
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                Model
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt>
+                Kolekcija
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Collection.Name)
+            </dd>
 
-<h3 class="text-center">Signo zelis da obrises ovaj model?</h3>
-<div class="text-center">
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Model
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            Kolekcija
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Collection.Name)
-        </dd>
+        </dl>
 
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="ModelId" />
-        <input type="submit" value="Obrisi" class="btn btn-danger" /> 
-    </form>
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="ModelId" />
+            <input type="submit" value="Obrisi" class="btn btn-danger" />
+        </form>
+    </div>
 </div>

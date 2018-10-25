@@ -1,7 +1,6 @@
 ﻿@model InokerWebApp.Models.Product
 
 
-
     <div class="col-md-4 col-lg-3">
         <div class="card">
             <h4 class="card-title text-center">Dodaj proizvod</h4>
@@ -46,17 +45,16 @@
             </div>
         </div>
     </div>
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        <script>
+            $(function () {
+                $("#newProdModelId").val($("#modelId").val())
+            })
 
-<script>
-    $(function () {
-        $("#newProdModelId").val($("#modelId").val())
-    })
-
-    function DisableBtn(btn) {
-        $(btn).attr("disabled");
+            function DisableBtn(btn) {
+                $(btn).attr("disabled");
+            }
+        </script>
     }
-    </script>
-}
