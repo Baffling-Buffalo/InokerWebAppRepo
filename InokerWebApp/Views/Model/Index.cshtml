@@ -16,60 +16,58 @@
     <h2 class="text-center" style="color:white">Plocice</h2>
 </div>*@
 
+    <div class="row">
 
-<div class="row">
+        @{ int count = 0; }
+        @foreach (ModelViewModel m in Model)
+        {
+            count += 1;
+            //var base64 = Convert.ToBase64String(p.Photo1);
+            var imgSrc = String.Format("data:image/gif;base64,{0}", m.Photo2);
 
-    @{ int count = 0; }
-    @foreach (ModelViewModel m in Model)
-    {
-        count += 1;
-        //var base64 = Convert.ToBase64String(p.Photo1);
-        var imgSrc = String.Format("data:image/gif;base64,{0}", m.Photo2);
+            string divClass;
+            string editClass;
+            string deleteClass;
+            if (count % 2 == 0)
+            {
+                divClass = "prod-bg";
+                editClass = "prod-edit-btn";
+                deleteClass = "prod-delete";
+            }
+            else
+            {
+                divClass = "prod-bg2";
+                editClass = "prod-edit-btn2";
+                deleteClass = "prod-delete2";
+            }
 
-        string divClass;
-        string editClass;
-        string deleteClass;
-        if (count % 2 == 0)
-        {
-            divClass = "prod-bg";
-            editClass = "prod-edit-btn";
-            deleteClass = "prod-delete";
-        }
-        else
-        {
-            divClass = "prod-bg2";
-            editClass = "prod-edit-btn2";
-            deleteClass = "prod-delete2";
-        }
-
-    <div class="col-md-6 prodListDiv @divClass" style="background-image:url(@imgSrc); ">
-        <div class="prodListInfo">
-            <h4>@m.Name.ToUpper()</h4>
-        </div>
-        @if (User.IsInRole("admin") || User.IsInRole("boss"))
-        {
-            <a role="button" asp-controller="Model" asp-action="Edit" asp-route-id="@m.ModelId" data-hover="Izmeni" class="button btn btn-light  @editClass"><i class="fa fa-edit"></i></a>
-            <a role="button" asp-controller="Model" asp-action="Delete" asp-route-id="@m.ModelId" data-hover="Obrisi" class="button btn btn-light  @deleteClass"><i class="fa fa-trash"></i></a>
-        }
-        else
-        {
-            <a role="button" asp-controller="Cart" asp-action="AddModel" asp-route-modelId="@m.ModelId" data-hover="Dodaj u korpu" class="button btn btn-light  @editClass"><i class="fa fa-shopping-cart"></i></a>
+            <div class="col-md-6 prodListDiv @divClass" style="background-image:url(@imgSrc); ">
+                <div class="prodListInfo">
+                    <h4>@m.Name.ToUpper()</h4>
+                </div>
+                @if (User.IsInRole("admin") || User.IsInRole("boss"))
+                {
+                    <a role="button" asp-controller="Model" asp-action="Edit" asp-route-id="@m.ModelId" data-hover="Izmeni" class="button btn btn-light  @editClass"><i class="fa fa-edit"></i></a>
+                    <a role="button" asp-controller="Model" asp-action="Delete" asp-route-id="@m.ModelId" data-hover="Obrisi" class="button btn btn-light  @deleteClass"><i class="fa fa-trash"></i></a>
+                }
+                else
+                {
+                    <a role="button" asp-controller="Cart" asp-action="AddModel" asp-route-modelId="@m.ModelId" data-hover="Dodaj u korpu" class="button btn btn-light  @editClass"><i class="fa fa-shopping-cart"></i></a>
+                }
+            </div>
         }
     </div>
+    @section Scripts {
+        <script>
+
+            $(function () {
+                $(".prodListDiv").mouseover(function () {
+                    $(this).addClass("hoverBg");
+                });
+
+                $(".prodListDiv").mouseleave(function () {
+                    $(this).removeClass("hoverBg");
+                });
+            })
+        </script>
     }
-</div>
-
-@section Scripts {
-<script>
-
-    $(function () {
-        $(".prodListDiv").mouseover(function () {
-            $(this).addClass("hoverBg");
-        });
-
-        $(".prodListDiv").mouseleave(function () {
-            $(this).removeClass("hoverBg");
-        });
-    })
-</script>
-}
